@@ -32,10 +32,11 @@ public class UsuarioRepositorioimpl implements UsuarioRepositorio{
     }
 
     @Override
-    public String buscar(String email) {
+    public Usuario buscar(String email) {
         SQLiteDatabase db = dbConexion.getReadableDatabase();
         Cursor c = null;
         String nombre ="";
+        Usuario usuario = null;;
         try
         {
             //String[] selectionArgs = {email};
@@ -43,7 +44,14 @@ public class UsuarioRepositorioimpl implements UsuarioRepositorio{
             c = db.query("usuario",null,"lower(email)=?",
                     new String[]{email},null,null,null);
             if(c.moveToNext()){
-                nombre = c.getString(c.getColumnIndex("email"));
+                //nombre = c.getString(c.getColumnIndex("email"));
+                //usuario = new Usuario();
+                usuario = new Usuario();
+                usuario.setId(c.getInt(c.getColumnIndex("id")));
+                usuario.setNombre(c.getString(c.getColumnIndex("nombre")));
+                usuario.setPassword(c.getString(c.getColumnIndex("password")));
+                usuario.setEmail(c.getString(c.getColumnIndex("email")));
+
                 c.close();
             }
             //c.moveToFirst();
@@ -53,7 +61,7 @@ public class UsuarioRepositorioimpl implements UsuarioRepositorio{
         catch (Exception e){
             e.printStackTrace();
         }
-        return nombre.toLowerCase();
+        return usuario;//nombre.toLowerCase();
     }
 
     public String logging(String email, String password)

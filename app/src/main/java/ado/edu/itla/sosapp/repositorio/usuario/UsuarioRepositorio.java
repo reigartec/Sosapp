@@ -4,6 +4,6 @@ import ado.edu.itla.sosapp.entidad.Usuario;
 
 public interface UsuarioRepositorio {
     void guardar(Usuario usuario);
-    String buscar(String email);
+    Usuario buscar(String email);
     String logging(String email, String password);
 }

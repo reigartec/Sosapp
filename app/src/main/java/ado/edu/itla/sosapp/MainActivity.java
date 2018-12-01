@@ -100,13 +100,35 @@ public class MainActivity extends AppCompatActivity {
 
     public void login_click(View view)
     {
+
         final EditText emailText = findViewById(R.id.eUsuario);
         final EditText passwordText = findViewById(R.id.ePassword);
-        String email = emailText.getText().toString().toLowerCase();
+        String email = emailText.getText().toString().toLowerCase().trim();
         String password = passwordText.getText().toString();
         usuarioRepositorio = new UsuarioRepositorioimpl(this);
 
-        String mensaje = usuarioRepositorio.logging(email,password);
+        /***************NUEVO METODO****************/
+        Usuario u = null;
+        String mensaje = "";
+        String mail = "";
+        String pass = "";
+        u = usuarioRepositorio.buscar(email);
+
+        mail = u==null?"":u.getEmail().toLowerCase();
+        pass = u==null?"":u.getPassword().toLowerCase();
+        //mensaje = email==u.getEmail().toLowerCase()?"Gracias por iniciar sesión "+email:"";
+        if(mail.equals(email) && password.equals(pass))
+        {
+            mensaje = "Gracias por iniciar sesión "+email;
+        }else
+            {
+                mensaje = "Revisar datos de login!";
+                emailText.setError("Revisar datos de login!");
+            }
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+        /***************NUEVO METODO****************/
+/*****************METODO VIEJO DEVOLVIENDO UN STRING***************/
+        /*String mensaje = usuarioRepositorio.logging(email,password);
         if(mensaje=="")
         {
             Toast.makeText(this,"Revisar datos de login!", Toast.LENGTH_SHORT).show();
@@ -114,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         }else
         {
             Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
-        }
-
+        }*/
+        /*****************METODO VIEJO DEVOLVIENDO UN STRING***************/
     }
 }

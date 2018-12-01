@@ -46,9 +46,10 @@ public class Registrarse extends AppCompatActivity {
 
                //VALIDACIÓN
                 //VALIDACION EMAIL
-                if(emailText.getText().toString() == "")
+                if(emailText.getText().toString().isEmpty())
                 {
                     toasted("El campo email está vacío ó su longitud es menor a 4");
+                    emailText.setError("El campo email está vacío ó su longitud es menor a 4");
                     return;
                 }
                 if (!validarEmail(emailText.getText().toString())){
@@ -57,22 +58,27 @@ public class Registrarse extends AppCompatActivity {
                     return;
                 }
                 //Verificar en la base de datos si existe el correo.
-                String mail = usuarioRepositorio.buscar(emailText.getText().toString().toLowerCase());
-                if( mail.equals(emailText.getText().toString().toLowerCase()))
+               // String mail = usuarioRepositorio.buscar(emailText.getText().toString().toLowerCase());
+                Usuario u = null;
+                u = usuarioRepositorio.buscar(emailText.getText().toString().trim().toLowerCase());
+                String mail = "";
+                mail = u==null?"":u.getEmail().toLowerCase();
+                //try{mail = u.getEmail().toLowerCase();}catch (Exception e){mail="";e.printStackTrace();}
+                if( mail.equals(emailText.getText().toString().toLowerCase().trim()))
                 {
                     emailText.setError("Este email ya fue registrado!");
                     toasted("Este email ya fue registrado!");
                     return;
                 }
                 //VALIDACION EMAIL
-                if(nombreText.getText().toString() == "" || nombreText.getText().length() <= 3)
+                if(nombreText.getText().toString().isEmpty() || nombreText.getText().length() <= 3)
                 {
                     toasted("El campo nombre está vacío ó su longitud es menor a 4");
                     nombreText.setError("Campo vacío ó longitud menor a 4");
                     return;
                 }
 
-                if(passwordText.getText().toString() == "")
+                if(passwordText.getText().toString().isEmpty())
                 {
                     toasted("El campo password está vacío");
                     passwordText.setError("Campo vacío");
