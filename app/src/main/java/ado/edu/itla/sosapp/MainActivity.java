@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
         if(mail.equals(email) && password.equals(pass))
         {
             mensaje = "Gracias por iniciar sesión "+email;
+            Intent ventana = new Intent(MainActivity.this, InicioActivity.class);
+            startActivity(ventana);
         }else
             {
                 mensaje = "Revisar datos de login!";

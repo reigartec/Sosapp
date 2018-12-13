@@ -3,20 +3,9 @@ package ado.edu.itla.sosapp.entidad;
 public class Usuario {
     public int id;
     private String nombre;
-   // private String username;
     private String password;
     private String email;
-    //private int edad;
 
-   /* public void setEdad(int edad) throws Exception {
-
-        if (edad<0 || edad>130){
-            throw new RuntimeException("Error: Edad no permitida.");
-        }
-
-        this.edad = edad;
-
-    }*/
 
     public int getId() {
         return id;
@@ -26,9 +15,6 @@ public class Usuario {
         return nombre;
     }
 
-    /*public String getUsername() {
-        return username;
-    }*/
 
     public String getPassword() {
         return password;
@@ -38,11 +24,6 @@ public class Usuario {
         return email;
     }
 
-    /*public int getEdad(){
-        return edad;
-    }*/
-
-
     public void setId(int id) {
         this.id = id;
     }
@@ -50,10 +31,6 @@ public class Usuario {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    /*public void setUsername(String username) {
-        this.username = username;
-    }*/
 
     public void setPassword(String password) {
         this.password = password;
@@ -68,10 +45,8 @@ public class Usuario {
         return "Usuario{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
-                //", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                //", edad=" + edad +
                 '}';
     }
 }

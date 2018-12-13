@@ -115,28 +115,11 @@ public class Registrarse extends AppCompatActivity {
             }
         });
 
-       //btnCancelar.setOnClickListener(new View.OnClickListener(){});
-
-/*        public void loginabr{
-            Intent loginser = new Intent(Registrarse.this, MainActivity.class);
-            startActivity(loginser);
-        }
-        Button btnCancelar = findViewById(R.id.registrar_cancelar);
-
-        btnCancelar.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View b){
-                Intent loginser = new Intent(Registrarse.this, MainActivity.class);
-                startActivity(loginser);
-            }
-
-        });*/
-
 
 
     }
 
-    public void Cancelar_click(View view){
+    public void cancelarClick(View view){
         // iniciamos la segunda actividad donde se encuentran los reportes.
         nom="Saliendo del registro...";//Asigno a la variable nom el nombre de esa pantalla a presentar en el toasted
         //Cuadro negro.
@@ -148,7 +131,6 @@ public class Registrarse extends AppCompatActivity {
 
     public void toasted(String nom){
         //Es utilizada para presentar el mensaje en forma rectangulo negro antes de abrir cada ventana
-        //Aquí lanzamos el menssage cuando pulsamos un tab
         Context context = getApplicationContext();
         CharSequence text = "Mensaje:... \n  "+nom;
         int duration = Toast.LENGTH_SHORT;

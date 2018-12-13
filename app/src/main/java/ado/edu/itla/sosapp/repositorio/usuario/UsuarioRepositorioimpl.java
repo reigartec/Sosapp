@@ -63,7 +63,7 @@ public class UsuarioRepositorioimpl implements UsuarioRepositorio{
         }
         return usuario;//nombre.toLowerCase();
     }
-
+//Actualmente esta función 'logging' no se esta usando...
     public String logging(String email, String password)
     {
         SQLiteDatabase db = dbConexion.getReadableDatabase();
