@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ado.edu.itla.sosapp.entidad.Usuario;
+import ado.edu.itla.sosapp.repositorio.funciones.Sesion;
 import ado.edu.itla.sosapp.repositorio.usuario.UsuarioRepositorio;
 import ado.edu.itla.sosapp.repositorio.usuario.UsuarioRepositorioimpl;
 
@@ -20,15 +21,21 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "SOSAPP.MAINACTIVITY";//"Prueba";
     UsuarioRepositorio usuarioRepositorio;
+    Sesion sesion = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);//activity_main);
 
-        Log.d(TAG, "Entrando al Main Activity");
-        Log.e(TAG, "Esto es un error");
-
-
+       // Log.d(TAG, "Entrando al Main Activity");
+       // Log.e(TAG, "Esto es un error");
+        sesion = new Sesion(getApplicationContext());
+        String correo = sesion.get("email");
+        if(!correo.equals(""))
+        {
+            Intent ventana = new Intent(MainActivity.this, InicioActivity.class);
+            startActivity(ventana);
+        }
         TextView tView = (TextView) findViewById(R.id.login_Registrarse);
 
         tView.setOnClickListener(new View.OnClickListener(){
@@ -120,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
         if(mail.equals(email) && password.equals(pass))
         {
             mensaje = "Gracias por iniciar sesión "+email;
+            sesion = new Sesion(getApplicationContext());
+            sesion.set("email",email);
             Intent ventana = new Intent(MainActivity.this, InicioActivity.class);
             startActivity(ventana);
         }else

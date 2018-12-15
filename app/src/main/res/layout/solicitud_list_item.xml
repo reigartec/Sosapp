@@ -1,52 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center">
 
-    <RelativeLayout
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/logo"
+        android:src="@mipmap/ic_launcher_round"
+        />
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
 
         <TextView
-            android:id="@+id/solicitud_item_titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="10dp"
-            android:text="TextView"
-            android:textAllCaps="false"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:text="Titulo"
+            android:id="@+id/solicitud_titulo"
+            />
         <TextView
-            android:id="@+id/solicitud_usuario_solicitante"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="27dp"
-            android:layout_marginLeft="27dp"
-            android:layout_marginTop="111dp"
-            android:text="TextView" />
+            android:textSize="18sp"
+            android:text="Descripcion"
+            android:id="@+id/solicitud_descripcion"
+            />
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/solicitud_item_fecha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/solicitud_usuario_solicitante"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
-            android:text="TextView" />
-    </RelativeLayout>
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

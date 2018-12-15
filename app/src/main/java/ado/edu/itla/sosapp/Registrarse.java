@@ -110,7 +110,7 @@ public class Registrarse extends AppCompatActivity {
                 passwordText.setText("");
                 password2Text.setText("");
                 Toast.makeText(Registrarse.this,"Usuario registrado correctamente!", Toast.LENGTH_SHORT).show();
-                Cancelar_click(v);//Salimos del formulario, ya nuestro usuario está registrado...
+                cancelarClick(v);//Salimos del formulario, ya nuestro usuario está registrado...
                 //podemos proceder a intentar login.
             }
         });
