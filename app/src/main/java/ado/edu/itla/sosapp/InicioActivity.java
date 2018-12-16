@@ -15,14 +15,22 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.List;
+
+import ado.edu.itla.sosapp.entidad.Solicitud;
+import ado.edu.itla.sosapp.repositorio.solicitud.SolicitudRepositorioimpl;
+
 public class InicioActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavigationView;
-
+    ListView list;
+    int imgs[] = {R.drawable.ic_menu_gallery, R.drawable.ic_menu_share};
 //    private FrameLayout frameLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -49,6 +57,25 @@ public class InicioActivity extends AppCompatActivity implements NavigationView.
 
         seleccionarItem(R.id.action_inicio);
 
+        /**************TRABAJANDO CON LISTAS********************/
+        list = findViewById(R.id.missolicitudes_list);
+        List<Solicitud> solicituds = new SolicitudRepositorioimpl(getApplicationContext()).buscarTodos();
+        SolicitudAdapter adapter = new SolicitudAdapter(getApplicationContext(),solicituds);
+        list.setAdapter(adapter);
+        /**************TRABAJANDO CON LISTAS********************/
+        /**************TRABAJANDO CON LISTAS********************/
+        /**************CLICK DE CADA SOLICITUD********************/
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(InicioActivity.this,
+                        "Crear vista solicitud para la solicitud "+String.valueOf(id)+
+                        ", de la posición ("+position+")",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /**************TRABAJANDO CON LISTAS********************/
+        /**************CLICK DE CADA SOLICITUD********************/
     }
 
     @Override

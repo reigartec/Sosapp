@@ -9,4 +9,5 @@ public interface SolicitudRepositorio  {
     void guardar(Solicitud solicitud);
     public List<Solicitud> buscarSolicitudesPor(Usuario usuario);
     public List<Solicitud> buscarSolicitudesAfinesA (Usuario usuario);
+    public List<Solicitud> buscarTodos();
 }
