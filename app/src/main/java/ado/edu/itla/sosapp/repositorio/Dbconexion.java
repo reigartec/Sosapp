@@ -30,6 +30,11 @@ public class Dbconexion extends SQLiteOpenHelper {
             "`area` TEXT," +
             "`descripcion` TEXT)";
 
+    private static String TABLA_AREAAFIN = "CREATE TABLE `areaafin` (" +
+            "`id `INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+            "`usuario_id `INTEGER, " +
+            "`area_id` INTEGER )";
+
     public Dbconexion(Context context) {
         super(context, NOMBRE_BASEDATOS, null, VERSION_BASEDATOS);
     }
@@ -42,6 +47,7 @@ public class Dbconexion extends SQLiteOpenHelper {
             db.execSQL(TABLA_AREA);
             db.execSQL("INSERT INTO catalogo_area(area,descripcion)"+
                     "values('Comunicación',''),('Tecnología',''),('Electrónica','')");
+            db.execSQL(TABLA_AREAAFIN);
     }
 
     @Override

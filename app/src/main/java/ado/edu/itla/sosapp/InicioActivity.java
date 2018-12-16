@@ -16,11 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class InicioActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavigationView;
+
 //    private FrameLayout frameLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -70,6 +72,7 @@ public class InicioActivity extends AppCompatActivity implements NavigationView.
         }else if(itemid == R.id.action_solicitudes)
         {
             titulo = titulo + " - Solicitudes";
+            it = new Intent(InicioActivity.this, Solicitudes.class);
         }else if(itemid == R.id.action_nsolicitud)
         {
             titulo = titulo + " - Nueva Solicitud";

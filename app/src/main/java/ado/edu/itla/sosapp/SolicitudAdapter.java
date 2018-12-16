@@ -46,9 +46,9 @@ public class SolicitudAdapter extends BaseAdapter {
             solicitudItem = LayoutInflater.from(context).inflate(R.layout.solicitud_list_item,null);
         }
 
-        TextView txtTitulo = solicitudItem.findViewById(R.id.solicitud_item_titulo);
-        TextView txtUsuario = solicitudItem.findViewById(R.id.solicitud_usuario_solicitante);
-        TextView txtFecha = solicitudItem.findViewById(R.id.solicitud_item_fecha);
+        TextView txtTitulo = null;//solicitudItem.findViewById(R.id.solicitud_item_titulo);
+        TextView txtUsuario = null;//solicitudItem.findViewById(R.id.solicitud_usuario_solicitante);
+        TextView txtFecha = null;//solicitudItem.findViewById(R.id.solicitud_item_fecha);
 
         Solicitud solicitud = solicitudes.get(position);
 
