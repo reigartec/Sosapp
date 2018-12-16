@@ -22,6 +22,7 @@
         <activity android:name=".InicioActivity" android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".NuevaSolicitud" android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Solicitudes"  android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".VerSolicitud"  android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
             android:name="preloaded_fonts"

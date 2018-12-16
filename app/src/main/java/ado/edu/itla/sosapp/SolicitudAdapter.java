@@ -48,6 +48,7 @@ public class SolicitudAdapter extends BaseAdapter {
         }
 
         ImageView images = solicitudItem.findViewById(R.id.solicitud_item_logo);
+        //TextView myId = solicitudItem.findViewById(R.id.solicitud_item_id);
         TextView myTitle = solicitudItem.findViewById(R.id.solicitud_item_titulo);
         TextView myDescription = solicitudItem.findViewById(R.id.solicitud_item_descripcion);
         TextView myautor = solicitudItem.findViewById(R.id.solicitud_item_usuario);
@@ -66,7 +67,7 @@ public class SolicitudAdapter extends BaseAdapter {
         txtTitulo.setText(solicitud.getTitulo());//solicitud.getTitulo);
         txtFecha.setText(SDF.format(solicitud.getFecha()));//SDF.format(solicitud.getFecha())
         txtUsuario.setText(solicitud.getUsuarioSolicitante().getNombre());//solicitud.getUsuarioSolicitante().getNombre()
-*/
+*/      //myId.setText(solicitud.getId());
         myTitle.setText(solicitud.getTitulo());
         myDescription.setText(solicitud.getDescripcion());
         myautor.setText(solicitud.getUsuarioSolicitante().getNombre());

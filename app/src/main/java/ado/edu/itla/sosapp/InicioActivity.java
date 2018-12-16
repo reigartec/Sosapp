@@ -19,8 +19,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ado.edu.itla.sosapp.entidad.Solicitud;
@@ -59,19 +61,26 @@ public class InicioActivity extends AppCompatActivity implements NavigationView.
 
         /**************TRABAJANDO CON LISTAS********************/
         list = findViewById(R.id.missolicitudes_list);
-        List<Solicitud> solicituds = new SolicitudRepositorioimpl(getApplicationContext()).buscarTodos();
+        final List<Solicitud> solicituds = new SolicitudRepositorioimpl(getApplicationContext()).buscarTodos();
         SolicitudAdapter adapter = new SolicitudAdapter(getApplicationContext(),solicituds);
         list.setAdapter(adapter);
         /**************TRABAJANDO CON LISTAS********************/
         /**************TRABAJANDO CON LISTAS********************/
         /**************CLICK DE CADA SOLICITUD********************/
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                solicituds.get(position).getId();
                 Toast.makeText(InicioActivity.this,
-                        "Crear vista solicitud para la solicitud "+String.valueOf(id)+
+                        "Crear vista solicitud para la solicitud "+String.valueOf(solicituds.get(position).getId())+
                         ", de la posición ("+position+")",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(InicioActivity.this, VerSolicitud.class);
+                String idSolicitud = null;
+                i.putExtra("idSolicitud", String.valueOf(solicituds.get(position).getId()));
+                startActivity(i);
             }
+
         });
 
         /**************TRABAJANDO CON LISTAS********************/

@@ -10,4 +10,5 @@ public interface SolicitudRepositorio  {
     public List<Solicitud> buscarSolicitudesPor(Usuario usuario);
     public List<Solicitud> buscarSolicitudesAfinesA (Usuario usuario);
     public List<Solicitud> buscarTodos();
+    public Solicitud buscarPor(int id);
 }
