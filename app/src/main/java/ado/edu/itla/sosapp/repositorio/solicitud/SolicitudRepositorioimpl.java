@@ -35,16 +35,17 @@ public class SolicitudRepositorioimpl implements SolicitudRepositorio {
     @Override
     public void guardar(Solicitud solicitud) {
         ContentValues cv = new ContentValues();
-        cv.put("fecha", new Date().getTime());//solicitud.getFecha().getTime());
-        cv.put("descripcion", solicitud.getDescripcion());
-        cv.put("titulo", solicitud.getTitulo());
-        cv.put("estado", solicitud.getEstado().toString());
-        cv.put("areaafin", solicitud.getAreaAfin().getId());
-        cv.put("usuario_solicitante_id", solicitud.getUsuarioSolicitante().getId());
+
         if (solicitud.isActualizando()) {
+            cv.put("estado", solicitud.getEstado().toString());
             cv.put("usuario_asignado_id", solicitud.getUsuarioAsignado().getId());
         } else {
-
+            cv.put("fecha", new Date().getTime());//solicitud.getFecha().getTime());
+            cv.put("descripcion", solicitud.getDescripcion());
+            cv.put("titulo", solicitud.getTitulo());
+            cv.put("estado", solicitud.getEstado().toString());
+            cv.put("areaafin", solicitud.getAreaAfin().getId());
+            cv.put("usuario_solicitante_id", solicitud.getUsuarioSolicitante().getId());
             cv.put("usuario_asignado_id", 0);
         }
 
@@ -118,8 +119,59 @@ public class SolicitudRepositorioimpl implements SolicitudRepositorio {
     }
 
     @Override
-    public List<Solicitud> buscarSolicitudesAfinesA(Usuario usuario) {
-        return null;
+    public List<Solicitud> buscarSolicitudesSeleccionadas(Usuario usuario, String estadoen)
+    {
+
+        SQLiteDatabase db = dbConexion.getReadableDatabase();
+        Cursor c = null;
+        String nombre ="";
+        List<Solicitud> solicitudes = new ArrayList<>();
+        Solicitud solicitud = null;
+        try
+        {
+            //String[] selectionArgs = {email};
+            //c = db.rawQuery("SELECT email FROM usuario WHERE email = '"+email+"'", null);
+            c = db.query("solicitud",null," usuario_asignado_id=? AND estado=?",
+                    new String[]{String.valueOf(usuario.getId()),estadoen},null,null," id DESC ");
+
+            while(c.moveToNext()){
+                //nombre = c.getString(c.getColumnIndex("email"));
+                //usuario = new Usuario();
+                solicitud = new Solicitud();
+
+                solicitud.setId(c.getInt(c.getColumnIndex("id")));
+                solicitud.setTitulo(c.getString(c.getColumnIndex("titulo")));
+                solicitud.setDescripcion(c.getString(c.getColumnIndex("descripcion")));
+                int id = c.getInt(c.getColumnIndex("areaafin"));
+                AreaAfin afin = new AreaRepositorioimpl(conext).buscarPor(id);
+                solicitud.setAreaAfin(afin);
+                Usuario usu =  new UsuarioRepositorioimpl(conext).buscarPor(c.getInt(c.getColumnIndex("usuario_solicitante_id")));
+                solicitud.setUsuarioSolicitante(usu);
+                String estado = c.getString(c.getColumnIndex("estado"));
+                if(estado.equals(Solicitud.Estado.Pendiente.toString()))
+                {solicitud.setEstado(Solicitud.Estado.Pendiente);}else if(estado.equals(Solicitud.Estado.Proceso.toString()))
+                {solicitud.setEstado(Solicitud.Estado.Proceso);}else{solicitud.setEstado(Solicitud.Estado.Terminado);}
+                long nfecha = c.getLong(c.getColumnIndex("fecha"));
+                Date fechad = new Date(nfecha);
+                Log.i("SOSAPPFECHA",fechad.toString());
+                solicitud.setFecha(fechad);
+                Usuario usua =  new UsuarioRepositorioimpl(conext).buscarPor(c.getInt(c.getColumnIndex("usuario_asignado_id")));
+                solicitud.setUsuarioAsignado(usua);
+
+
+                solicitudes.add(solicitud);
+
+            }
+            c.close();
+            //c.moveToFirst();
+            //nombre = c.getString(c.getColumnIndex("email"));
+            c.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        //return usuario;//nombre.toLowerCase();
+        return solicitudes;
     }
 
     @Override

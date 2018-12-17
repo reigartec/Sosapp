@@ -15,6 +15,9 @@
     <item
         android:id="@+id/action_missolicitudes"
         android:title="Mis Solicitudes"/>
+    <item
+        android:id="@+id/action_solicitudesseleccionadas"
+        android:title="Solicitudes seleccionadas"/>
 
     <item
         android:id="@+id/action_settings"

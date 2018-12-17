@@ -126,7 +126,20 @@ public class InicioActivity extends AppCompatActivity implements NavigationView.
             list.setAdapter(adapter);
             /**************TRABAJANDO CON LISTAS********************/
 
-        }/*else if(itemid == R.id.action_solicitudes)
+        }else if(itemid == R.id.action_solicitudesseleccionadas)
+        {
+            titulo = titulo + " - Solicitudes a resolver";
+            /**************TRABAJANDO CON LISTAS********************/
+            list = findViewById(R.id.missolicitudes_list);
+            Sesion sesion = new Sesion(getApplicationContext());
+            String correo = sesion.get("email");
+            Usuario usuario = new UsuarioRepositorioimpl(getApplicationContext()).buscar(correo);
+            final List<Solicitud> solicituds = new SolicitudRepositorioimpl(getApplicationContext()).buscarSolicitudesSeleccionadas(usuario,"Proceso");
+            SolicitudAdapter adapter = new SolicitudAdapter(getApplicationContext(),solicituds);
+            list.setAdapter(adapter);
+            /**************TRABAJANDO CON LISTAS********************/
+        }//action_solicitudesseleccionadas
+        /*else if(itemid == R.id.action_solicitudes)
         {
             titulo = titulo + " - Solicitudes";
             it = new Intent(InicioActivity.this, Solicitudes.class);

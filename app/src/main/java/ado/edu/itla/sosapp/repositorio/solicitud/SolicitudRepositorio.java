@@ -8,7 +8,8 @@ import ado.edu.itla.sosapp.entidad.Usuario;
 public interface SolicitudRepositorio  {
     void guardar(Solicitud solicitud);
     public List<Solicitud> buscarSolicitudesPor(Usuario usuario);
-    public List<Solicitud> buscarSolicitudesAfinesA (Usuario usuario);
+    public List<Solicitud> buscarSolicitudesSeleccionadas (Usuario usuario, String estadoen);
+    //public List<Solicitud> buscarSolicitudesAfinesA (Usuario usuario);
     public List<Solicitud> buscarTodos();
     public Solicitud buscarPor(int id);
 }

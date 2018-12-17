@@ -13,14 +13,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
+import ado.edu.itla.sosapp.entidad.AreaAfin;
 import ado.edu.itla.sosapp.entidad.Solicitud;
+import ado.edu.itla.sosapp.entidad.Usuario;
 import ado.edu.itla.sosapp.repositorio.Dbconexion;
 import ado.edu.itla.sosapp.repositorio.funciones.Sesion;
+import ado.edu.itla.sosapp.repositorio.solicitud.SolicitudRepositorio;
 import ado.edu.itla.sosapp.repositorio.solicitud.SolicitudRepositorioimpl;
+import ado.edu.itla.sosapp.repositorio.usuario.UsuarioRepositorioimpl;
 
 public class VerSolicitud extends AppCompatActivity {
     Sesion sesion = null;
     Solicitud solicitud=null;
+    SolicitudRepositorio solicitudRepositorio;
     String correo="";
     private Dbconexion dbConexion;
     @Override
@@ -47,7 +54,7 @@ public class VerSolicitud extends AppCompatActivity {
         int id =  Integer.parseInt(idSolicitud);
         solicitud = new SolicitudRepositorioimpl(getApplicationContext()).buscarPor(id);
         final Button bcancelar = findViewById(R.id.solicitud_boton);
-        Button boton2 = findViewById(R.id.solicitud_boton2);
+        final Button boton2 = findViewById(R.id.solicitud_boton2);
 
         TextView titulo = findViewById(R.id.solicitud_lstitulo);
         titulo.setText(solicitud.getTitulo());
@@ -57,6 +64,12 @@ public class VerSolicitud extends AppCompatActivity {
         area.setText(solicitud.getAreaAfin().getNombre());
         TextView estado = findViewById(R.id.solicitud_lsestado);
         estado.setText(solicitud.getEstado().toString());
+        TextView fecha = findViewById(R.id.solicitud_lsfecha);
+        fecha.setText(solicitud.getFecha().toString());
+        //long nfecha = solicitud.getFecha();
+        //Date fechad = new Date(nfecha);
+        //solicitud.setFecha(fechad);
+        Usuario current_user = new UsuarioRepositorioimpl(getApplicationContext()).buscar(correo);
 
         TextView ttc = findViewById(R.id.labelcreatra);
         TextView qtra = findViewById(R.id.solicitud_lsusuario);
@@ -82,10 +95,50 @@ public class VerSolicitud extends AppCompatActivity {
 
         }else
             {
-                bcancelar.setText("Seleccionar");
-                boton2.setVisibility(View.INVISIBLE);
-                ttc.setText("Creado por:");
-                qtra.setText(solicitud.getUsuarioSolicitante().getNombre());
+                if(solicitud.getEstado().toString().equals("Terminado"))
+                {
+                    boton2.setVisibility(View.INVISIBLE);
+                    bcancelar.setVisibility(View.INVISIBLE);
+                    ttc.setText("Trabajado por:");
+                    qtra.setText(solicitud.getUsuarioAsignado().getNombre()+" De - "+solicitud.getUsuarioSolicitante().getNombre());
+                }else if(solicitud.getEstado().toString().equals("Proceso") && solicitud.getUsuarioAsignado().getId() == current_user.getId()){
+                    boton2.setText("Liberar");
+                    bcancelar.setText("Finalizar");
+                    ttc.setText("Trabajando por:");
+                    qtra.setText(solicitud.getUsuarioAsignado().getNombre()+" De - "+solicitud.getUsuarioSolicitante().getNombre());
+                }
+                else {
+                    if(solicitud.getEstado().toString().equals("Pendiente")){
+                    bcancelar.setText("Seleccionar");
+                    boton2.setVisibility(View.INVISIBLE);
+                    ttc.setText("Creado por:");
+                    qtra.setText(solicitud.getUsuarioSolicitante().getNombre());}else{
+                        boton2.setVisibility(View.INVISIBLE);
+                        bcancelar.setVisibility(View.INVISIBLE);
+                        ttc.setText("Trabajando por:");
+                        qtra.setText(solicitud.getUsuarioAsignado().getNombre()+" De - "+solicitud.getUsuarioSolicitante().getNombre());
+                    }
+                }
+
+                /*Usuario usua = new UsuarioRepositorioimpl(getApplicationContext()).buscar(correo);
+
+
+                if(solicitud.getUsuarioAsignado().getId()==usua.getId() && solicitud.getEstado().toString().equals("Proceso"))
+                {
+                    boton2.setVisibility(View.VISIBLE);
+                    boton2.setText("Liberar");
+                    bcancelar.setText("Finalizar");
+                }else
+               {*/
+                    /*bcancelar.setText("Seleccionar");
+                    boton2.setVisibility(View.INVISIBLE);
+                    ttc.setText("Creado por:");
+                    qtra.setText(solicitud.getUsuarioSolicitante().getNombre());*/
+                /*}else{bcancelar.setVisibility(View.INVISIBLE);
+                    boton2.setVisibility(View.INVISIBLE);
+                    ttc.setText("Trabajado por:");
+                    qtra.setText(solicitud.getUsuarioAsignado().getNombre()+" De: "+solicitud.getUsuarioSolicitante().getNombre());}
+                    */
             }
 
 
@@ -93,30 +146,75 @@ public class VerSolicitud extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     //Toast.makeText(getApplicationContext(),
-                      //      "Afuera - "+solicitud.getUsuarioSolicitante().getEmail()+
-                        //    " - correo - "+correo,Toast.LENGTH_SHORT).show();
-                    if(solicitud.getUsuarioSolicitante().getEmail().toLowerCase().equals(correo.toLowerCase()))
-                    {
-                        AlertDialog cajaopcion = pregunta(solicitud.getId());
-                        cajaopcion.show();//Opcion para borrar la solicitud o no.
-                        //Toast.makeText(getApplicationContext(),
-                          //      "Solicitud prueba click cancelar ",Toast.LENGTH_SHORT).show();
+                    //      "Afuera - "+solicitud.getUsuarioSolicitante().getEmail()+
+                    //    " - correo - "+correo,Toast.LENGTH_SHORT).show();
+                    if (!solicitud.getEstado().toString().equals("Terminado")) {
+                        if (solicitud.getUsuarioSolicitante().getEmail().toLowerCase().equals(correo.toLowerCase())) {
+                            AlertDialog cajaopcion = pregunta(solicitud.getId());
+                            cajaopcion.show();//Opcion para borrar la solicitud o no.
+                            //Toast.makeText(getApplicationContext(),
+                            //      "Solicitud prueba click cancelar ",Toast.LENGTH_SHORT).show();
 
-                    }else
-                    {
-                            if(bcancelar.getText().toString().equals("Seleccionar"))
-                            {
-                                Toast.makeText(getApplicationContext(),
-                                        "Probando, si funciona",Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (bcancelar.getText().toString().equals("Seleccionar")) {
+//                                Toast.makeText(getApplicationContext(),
+                                //                                      "Probando, si funciona",Toast.LENGTH_SHORT).show();
+
+                                Solicitud solicitudm = new Solicitud();
+                                solicitudm.setEstado(Solicitud.Estado.Proceso);
+                                Usuario usuasignado = new UsuarioRepositorioimpl(getApplicationContext()).buscar("" + correo);
+                                solicitudm.setUsuarioAsignado(usuasignado);
+                                solicitudm.setActualizando(true);
+                                solicitudm.setId(solicitud.getId());
+
+                                solicitudRepositorio = new SolicitudRepositorioimpl(getApplicationContext());
+                                solicitudRepositorio.guardar(solicitudm);
+
+                                Toast.makeText(getApplicationContext(), "Solicitud Acogida, gracias por su ayuda!", Toast.LENGTH_SHORT).show();
+                                boton2.setVisibility(View.VISIBLE);
+                                boton2.setText("Liberar");
+                                bcancelar.setText("Finalizar");
+                            } else if (bcancelar.getText().toString().equals("Finalizar")) {
+
+                                Solicitud solicitudm = new Solicitud();
+                                solicitudm.setEstado(Solicitud.Estado.Terminado);
+                                Usuario usuasignado = new UsuarioRepositorioimpl(getApplicationContext()).buscar("" + correo);
+                                solicitudm.setUsuarioAsignado(usuasignado);
+                                solicitudm.setActualizando(true);
+                                solicitudm.setId(solicitud.getId());
+
+                                solicitudRepositorio = new SolicitudRepositorioimpl(getApplicationContext());
+                                solicitudRepositorio.guardar(solicitudm);
+
+                                Toast.makeText(getApplicationContext(), "Solicitud Finalizada, gracias por su ayuda!", Toast.LENGTH_SHORT).show();
+                                bcancelar.setVisibility(View.INVISIBLE);
+                                boton2.setVisibility(View.INVISIBLE);
                             }
-                    }
+                        }
+                    }else{bcancelar.setVisibility(View.INVISIBLE);
+                        boton2.setVisibility(View.INVISIBLE);}
                 }
             });
 
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(boton2.getText().toString().equals("Liberar"))
+                {
+                    Solicitud solicitudm = new Solicitud();
+                    solicitudm.setEstado(Solicitud.Estado.Pendiente);
+                    Usuario usuasignado =  new UsuarioRepositorioimpl(getApplicationContext()).buscar(""+correo);
+                    solicitudm.setUsuarioAsignado(usuasignado);
+                    solicitudm.setActualizando(true);
+                    solicitudm.setId(solicitud.getId());
 
+                    solicitudRepositorio = new SolicitudRepositorioimpl(getApplicationContext());
+                    solicitudRepositorio.guardar(solicitudm);
+
+                    Toast.makeText(getApplicationContext(),"Solicitud liberada!", Toast.LENGTH_SHORT).show();
+                    boton2.setVisibility(View.INVISIBLE);
+                    bcancelar.setText("Seleccionar");
+                }
             }
         });
 
